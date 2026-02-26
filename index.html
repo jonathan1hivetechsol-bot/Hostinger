@@ -15,8 +15,9 @@
         .h-topbar { height: 64px; background: white; border-bottom: 1px solid #e2e8f0; position: fixed; top: 0; left: 0; right: 0; z-index: 40; padding: 0 16px; display: flex; align-items: center; justify-content: space-between; }
         .main-content { margin-left: 240px; margin-top: 64px; padding: 32px; transition: all 0.3s; }
         .card { background: white; border-radius: 12px; border: 1px solid #e2e8f0; padding: 20px; }
-        .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 8px; color: #64748b; font-weight: 600; font-size: 14px; cursor: pointer; }
+        .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 8px; color: #64748b; font-weight: 600; font-size: 14px; cursor: pointer; transition: 0.2s; }
         .nav-item.active { background: #f5f3ff; color: #673ab7; }
+        .nav-item:hover:not(.active) { background: #f8fafc; }
         @media (max-width: 768px) {
             .h-sidebar { display: none; }
             .main-content { margin-left: 0; margin-top: 64px; padding: 16px; }
@@ -46,6 +47,11 @@
         <div class="mt-20 px-4 space-y-2">
             <div @click="page = 'dashboard'" class="nav-item" :class="page === 'dashboard' ? 'active' : ''"><span>VPS Management</span></div>
             <div @click="page = 'receipt'" class="nav-item" :class="page === 'receipt' ? 'active' : ''"><span>Billing & Invoices</span></div>
+            
+            <div @click="page = 'confirmation'" class="nav-item" :class="page === 'confirmation' ? 'active' : ''">
+                <span>Payment Confirmation</span>
+            </div>
+
             <div class="nav-item flex flex-col items-start gap-1">
                 <span class="text-slate-600">Cloud Services</span>
                 <div class="flex flex-col border-l-2 border-purple-200 pl-3 py-1">
@@ -67,6 +73,47 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div class="card border-l-4 border-l-purple-600"><p class="text-[9px] font-bold text-slate-400">Active Plan</p><p class="text-lg font-black mt-1">KVM 2 VPS</p></div>
                     <div class="card"><p class="text-[9px] font-bold text-slate-400">IP Address</p><p class="text-lg font-mono font-black mt-1">185.212.110.45</p></div>
+                </div>
+            </div>
+        </template>
+
+        <template x-if="page === 'confirmation'">
+            <div class="animate-fadeIn max-w-2xl mx-auto">
+                <h1 class="text-xl font-black text-slate-900 mb-6">Payment Status Confirmation</h1>
+                <div class="space-y-4">
+                    <div class="card flex justify-between items-center border-l-4 border-l-emerald-500 shadow-sm">
+                        <div>
+                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Transaction #HST-882910</p>
+                            <p class="text-sm font-bold text-slate-800 mt-1">VPS Renewal - Feb 2026</p>
+                            <p class="text-[10px] text-emerald-600 font-bold mt-1 uppercase">Confirmed on: Feb 26, 2026</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-lg font-black text-slate-900">$16.00</p>
+                            <span class="text-[9px] bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full font-bold">SUCCESS</span>
+                        </div>
+                    </div>
+
+                    <div class="card flex justify-between items-center border-l-4 border-l-emerald-500 shadow-sm opacity-90">
+                        <div>
+                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Transaction #HST-882910</p>
+                            <p class="text-sm font-bold text-slate-800 mt-1">VPS Renewal - Jan 2026</p>
+                            <p class="text-[10px] text-emerald-600 font-bold mt-1 uppercase">Confirmed on: Jan 22, 2026</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-lg font-black text-slate-900">$16.00</p>
+                            <span class="text-[9px] bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full font-bold">SUCCESS</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 p-6 bg-purple-50 rounded-2xl border border-purple-100 flex items-start gap-4">
+                    <div class="w-10 h-10 rounded-full bg-purple-600 flex items-center justify-center text-white shrink-0">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <div>
+                        <p class="text-sm font-bold text-purple-900">Important</p>
+                        <p class="text-xs text-purple-700 mt-1 leading-relaxed">You get confirmation email on your mail for every successful transaction. Please check your inbox (admin@hostinger.vps) for official PDF copies.</p>
+                    </div>
                 </div>
             </div>
         </template>
@@ -107,17 +154,14 @@
                             </div>
                             <p class="text-xl font-black text-slate-900">$16.00</p>
                         </div>
-
                         <div class="space-y-3 mb-8 text-xs border-b pb-6">
                             <div class="flex justify-between"><span class="text-slate-400">Plan</span><span class="font-bold">KVM 2 VPS (1 Month)</span></div>
                             <div class="flex justify-between"><span class="text-slate-400">Status</span><span class="font-bold text-emerald-600">Successful</span></div>
                         </div>
-
                         <div class="flex items-center gap-4 bg-slate-50 p-4 rounded-xl mb-6">
                             <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://hostinger.com" alt="QR" class="w-14 h-14">
                             <p class="text-[8px] text-slate-500 leading-tight">Verified by Hostinger Payment Gateway. Scan to view ledger details.</p>
                         </div>
-
                         <button onclick="window.print()" class="no-print w-full hostinger-purple text-white py-4 rounded-xl font-bold uppercase text-[10px] shadow-lg">Download / Print PDF</button>
                     </div>
                     <div class="h-1.5 w-full bg-emerald-500"></div>
@@ -129,6 +173,7 @@
     <div class="mobile-nav no-print lg:hidden">
         <div @click="page = 'dashboard'" :class="page === 'dashboard' ? 'text-purple' : 'text-slate-400'" class="flex flex-col items-center"><span class="text-[10px] font-bold">Server</span></div>
         <div @click="page = 'receipt'" :class="page === 'receipt' ? 'text-purple' : 'text-slate-400'" class="flex flex-col items-center"><span class="text-[10px] font-bold">Billing</span></div>
+        <div @click="page = 'confirmation'" :class="page === 'confirmation' ? 'text-purple' : 'text-slate-400'" class="flex flex-col items-center"><span class="text-[10px] font-bold">Pay Conf.</span></div>
     </div>
 
 </body>
