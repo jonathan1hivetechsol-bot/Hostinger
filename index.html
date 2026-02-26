@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" x-data="{ page: 'receipt', activeInvoice: 'HST-882910' }">
+<html lang="en" x-data="{ page: 'receipt', activeDate: 'Feb 22, 2026' }">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -73,16 +73,15 @@
 
         <template x-if="page === 'receipt'">
             <div class="flex flex-col lg:flex-row gap-8 items-start justify-center animate-fadeIn">
-                
                 <div class="w-full lg:w-64 no-print">
                     <h2 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Invoice History</h2>
                     <div class="space-y-2">
-                        <div @click="activeInvoice = 'HST-882910'" :class="activeInvoice === 'HST-882910' ? 'border-purple-600 bg-white' : 'border-transparent'" class="card !p-4 cursor-pointer border-2 transition-all">
+                        <div @click="activeDate = 'Feb 22, 2026'" :class="activeDate === 'Feb 22, 2026' ? 'border-purple-600 bg-white' : 'border-transparent'" class="card !p-4 cursor-pointer border-2 transition-all">
                             <p class="text-xs font-bold text-slate-800">#HST-882910</p>
                             <p class="text-[10px] text-slate-400">Feb 22, 2026</p>
                         </div>
-                        <div @click="activeInvoice = 'HST-771805'" :class="activeInvoice === 'HST-771805' ? 'border-purple-600 bg-white' : 'border-transparent'" class="card !p-4 cursor-pointer border-2 transition-all">
-                            <p class="text-xs font-bold text-slate-800">#HST-771805</p>
+                        <div @click="activeDate = 'Jan 22, 2026'" :class="activeDate === 'Jan 22, 2026' ? 'border-purple-600 bg-white' : 'border-transparent'" class="card !p-4 cursor-pointer border-2 transition-all">
+                            <p class="text-xs font-bold text-slate-800">#HST-882910</p>
                             <p class="text-[10px] text-slate-400">Jan 22, 2026</p>
                         </div>
                     </div>
@@ -95,8 +94,8 @@
                             <span class="bg-emerald-500 text-[9px] font-bold px-2 py-1 rounded-full uppercase">Paid</span>
                         </div>
                         <div class="mt-8">
-                            <h1 class="text-2xl font-black" x-text="activeInvoice === 'HST-882910' ? '#HST-882910' : '#HST-771805'"></h1>
-                            <p class="text-[10px] text-purple-200 mt-1 uppercase tracking-widest" x-text="activeInvoice === 'HST-882910' ? 'Feb 22, 2026' : 'Jan 22, 2026'"></p>
+                            <h1 class="text-2xl font-black">#HST-882910</h1>
+                            <p class="text-[10px] text-purple-200 mt-1 uppercase tracking-widest" x-text="activeDate"></p>
                         </div>
                     </div>
 
