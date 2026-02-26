@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" x-data="{ page: 'receipt' }">
+<html lang="en" x-data="{ page: 'receipt', activeInvoice: 'HST-882910' }">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,43 +11,26 @@
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f1f5f9; margin-bottom: 70px; }
         .hostinger-purple { background-color: #673ab7; }
         .text-purple { color: #673ab7; }
-        
-        /* Desktop Sidebar */
         .h-sidebar { width: 240px; background: white; border-right: 1px solid #e2e8f0; height: 100vh; position: fixed; left: 0; top: 0; z-index: 50; }
         .h-topbar { height: 64px; background: white; border-bottom: 1px solid #e2e8f0; position: fixed; top: 0; left: 0; right: 0; z-index: 40; padding: 0 16px; display: flex; align-items: center; justify-content: space-between; }
-        
-        /* Layout logic */
         .main-content { margin-left: 240px; margin-top: 64px; padding: 32px; transition: all 0.3s; }
         .card { background: white; border-radius: 12px; border: 1px solid #e2e8f0; padding: 20px; }
-        
-        /* Navigation Styles */
         .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 8px; color: #64748b; font-weight: 600; font-size: 14px; cursor: pointer; }
         .nav-item.active { background: #f5f3ff; color: #673ab7; }
-
-        /* Mobile Bottom Nav */
-        .mobile-nav { display: none; position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid #e2e8f0; z-index: 100; height: 65px; }
-
         @media (max-width: 768px) {
             .h-sidebar { display: none; }
             .main-content { margin-left: 0; margin-top: 64px; padding: 16px; }
-            .mobile-nav { display: flex; justify-content: space-around; align-items: center; }
+            .mobile-nav { display: flex; justify-content: space-around; align-items: center; position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid #e2e8f0; z-index: 100; height: 65px; }
             body { margin-bottom: 80px; }
         }
-
-        @media print { 
-            .no-print { display: none !important; } 
-            .main-content { margin: 0 !important; padding: 0 !important; }
-            .card { border: none !important; box-shadow: none !important; }
-        }
+        @media print { .no-print { display: none !important; } .main-content { margin: 0 !important; padding: 0 !important; } .card { border: none !important; box-shadow: none !important; } }
     </style>
 </head>
 <body>
 
     <header class="h-topbar no-print">
         <div class="flex items-center gap-2">
-           <img src="https://raw.githubusercontent.com/jonathan1hivetechsol-bot/Hostinger/main/Hostinger-logo.png" 
-     alt="Hostinger" 
-     class="h-6 md:h-7 object-contain">
+           <img src="https://raw.githubusercontent.com/jonathan1hivetechsol-bot/Hostinger/main/Hostinger-logo.png" alt="Hostinger" class="h-6 md:h-7 object-contain">
             <span class="bg-purple-100 text-purple-700 text-[9px] font-bold px-1.5 py-0.5 rounded uppercase">hPanel</span>
         </div>
         <div class="flex items-center gap-3">
@@ -61,13 +44,15 @@
 
     <aside class="h-sidebar no-print">
         <div class="mt-20 px-4 space-y-2">
-            <div @click="page = 'dashboard'" class="nav-item" :class="page === 'dashboard' ? 'active' : ''">
-                <span>VPS Management</span>
+            <div @click="page = 'dashboard'" class="nav-item" :class="page === 'dashboard' ? 'active' : ''"><span>VPS Management</span></div>
+            <div @click="page = 'receipt'" class="nav-item" :class="page === 'receipt' ? 'active' : ''"><span>Billing & Invoices</span></div>
+            <div class="nav-item flex flex-col items-start gap-1">
+                <span class="text-slate-600">Cloud Services</span>
+                <div class="flex flex-col border-l-2 border-purple-200 pl-3 py-1">
+                    <span class="text-[10px] font-bold text-purple-600 uppercase">VPS Hosting</span>
+                    <span class="text-[9px] text-slate-400">KVM 2 Plan • Active</span>
+                </div>
             </div>
-            <div @click="page = 'receipt'" class="nav-item" :class="page === 'receipt' ? 'active' : ''">
-                <span>Billing & Invoices</span>
-            </div>
-            <div class="nav-item text-slate-300">Cloud Services</div>
             <div class="nav-item flex flex-col items-start gap-0">
                 <span class="text-slate-500">Domains</span>
                 <span class="text-[10px] text-purple-400 truncate w-full">darkviolet-marten-929706.hostingersite.com</span>
@@ -75,78 +60,43 @@
         </div>
     </aside>
 
-    <div class="mobile-nav no-print">
-        <div @click="page = 'dashboard'" class="flex flex-col items-center gap-1" :class="page === 'dashboard' ? 'text-purple' : 'text-slate-400'">
-            <div class="text-[10px] font-bold uppercase tracking-tighter">Server</div>
-        </div>
-        <div @click="page = 'receipt'" class="flex flex-col items-center gap-1" :class="page === 'receipt' ? 'text-purple' : 'text-slate-400'">
-            <div class="text-[10px] font-bold uppercase tracking-tighter">Billing</div>
-        </div>
-        <div class="flex flex-col items-center gap-1 text-slate-300">
-            <div class="text-[10px] font-bold uppercase tracking-tighter">Help</div>
-        </div>
-    </div>
-
     <main class="main-content">
-        
         <template x-if="page === 'dashboard'">
             <div class="animate-fadeIn">
-                <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-8">
-                    <h1 class="text-xl md:text-2xl font-black text-slate-900">VPS Dashboard</h1>
-                    <div class="flex items-center w-fit gap-2 bg-emerald-500 text-white px-4 py-1.5 rounded-full text-[10px] font-bold uppercase">
-                        <span class="w-2 h-2 bg-white rounded-full animate-pulse"></span> Running
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-                    <div class="card border-l-4 border-l-purple-600 shadow-sm">
-                        <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Active Plan</p>
-                        <p class="text-lg font-black text-slate-800 mt-1">KVM 2 VPS</p>
-                        <p class="text-xs text-purple-600 font-bold mt-2">$16.00 / mo</p>
-                    </div>
-                    <div class="card shadow-sm">
-                        <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Dedicated IP</p>
-                        <p class="text-lg font-mono font-black text-slate-800 mt-1">185.212.110.45</p>
-                    </div>
-                    <div class="card shadow-sm sm:col-span-2 lg:col-span-1">
-                        <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Resources</p>
-                        <p class="text-lg font-black text-slate-800 mt-1">4.0 GB RAM</p>
-                        <div class="w-full bg-slate-100 h-1.5 rounded-full mt-3">
-                            <div class="bg-purple-600 h-full w-1/3 rounded-full"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card bg-slate-900 text-slate-300 font-mono text-[10px] md:text-xs overflow-x-auto">
-                    <div class="flex items-center gap-2 mb-4 border-b border-slate-800 pb-2">
-                        <div class="flex gap-1">
-                            <div class="w-2 h-2 rounded-full bg-red-500"></div>
-                            <div class="w-2 h-2 rounded-full bg-emerald-500"></div>
-                        </div>
-                        <span class="text-[9px] text-slate-500 uppercase">SSH Terminal</span>
-                    </div>
-                    <p class="text-emerald-400">root@vps:~$ uptime</p>
-                    <p>17:59:36 up 14 days, 2:04</p>
-                    <p class="text-emerald-400 mt-2">root@vps:~$ php artisan --version</p>
-                    <p>Laravel Framework 10.10</p>
-                    <p class="animate-pulse">_</p>
+                <h1 class="text-xl font-black mb-8">VPS Dashboard</h1>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="card border-l-4 border-l-purple-600"><p class="text-[9px] font-bold text-slate-400">Active Plan</p><p class="text-lg font-black mt-1">KVM 2 VPS</p></div>
+                    <div class="card"><p class="text-[9px] font-bold text-slate-400">IP Address</p><p class="text-lg font-mono font-black mt-1">185.212.110.45</p></div>
                 </div>
             </div>
         </template>
 
         <template x-if="page === 'receipt'">
-            <div class="flex flex-col items-center animate-fadeIn">
+            <div class="flex flex-col lg:flex-row gap-8 items-start justify-center animate-fadeIn">
+                
+                <div class="w-full lg:w-64 no-print">
+                    <h2 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Invoice History</h2>
+                    <div class="space-y-2">
+                        <div @click="activeInvoice = 'HST-882910'" :class="activeInvoice === 'HST-882910' ? 'border-purple-600 bg-white' : 'border-transparent'" class="card !p-4 cursor-pointer border-2 transition-all">
+                            <p class="text-xs font-bold text-slate-800">#HST-882910</p>
+                            <p class="text-[10px] text-slate-400">Feb 22, 2026</p>
+                        </div>
+                        <div @click="activeInvoice = 'HST-771805'" :class="activeInvoice === 'HST-771805' ? 'border-purple-600 bg-white' : 'border-transparent'" class="card !p-4 cursor-pointer border-2 transition-all">
+                            <p class="text-xs font-bold text-slate-800">#HST-771805</p>
+                            <p class="text-[10px] text-slate-400">Jan 22, 2026</p>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="card !p-0 w-full max-w-md shadow-2xl overflow-hidden border-none">
                     <div class="hostinger-purple p-6 md:p-10 text-white">
                         <div class="flex justify-between items-center">
-                          <img src="https://raw.githubusercontent.com/jonathan1hivetechsol-bot/Hostinger/main/Hostinger-logo.png" 
-     alt="Hostinger" 
-     class="h-6 md:h-7 object-contain">
+                            <img src="https://raw.githubusercontent.com/jonathan1hivetechsol-bot/Hostinger/main/Hostinger-logo.png" alt="Hostinger" class="h-6 object-contain">
                             <span class="bg-emerald-500 text-[9px] font-bold px-2 py-1 rounded-full uppercase">Paid</span>
                         </div>
                         <div class="mt-8">
-                            <h1 class="text-2xl font-black">#HST-882910</h1>
-                            <p class="text-[10px] text-purple-200 mt-1 uppercase tracking-widest">Feb 22, 2026</p>
+                            <h1 class="text-2xl font-black" x-text="activeInvoice === 'HST-882910' ? '#HST-882910' : '#HST-771805'"></h1>
+                            <p class="text-[10px] text-purple-200 mt-1 uppercase tracking-widest" x-text="activeInvoice === 'HST-882910' ? 'Feb 22, 2026' : 'Jan 22, 2026'"></p>
                         </div>
                     </div>
 
@@ -160,32 +110,27 @@
                         </div>
 
                         <div class="space-y-3 mb-8 text-xs border-b pb-6">
-                            <div class="flex justify-between">
-                                <span class="text-slate-400">Plan</span>
-                                <span class="font-bold">KVM 2 VPS (1 Month)</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-slate-400">Status</span>
-                                <span class="font-bold text-emerald-600">Successful</span>
-                            </div>
+                            <div class="flex justify-between"><span class="text-slate-400">Plan</span><span class="font-bold">KVM 2 VPS (1 Month)</span></div>
+                            <div class="flex justify-between"><span class="text-slate-400">Status</span><span class="font-bold text-emerald-600">Successful</span></div>
                         </div>
 
                         <div class="flex items-center gap-4 bg-slate-50 p-4 rounded-xl mb-6">
-                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://hostinger-ruby-sigma.vercel.app/" alt="QR" class="w-14 h-14">
-                            <p class="text-[8px] text-slate-500 leading-tight">Digital invoice verified by Hostinger Payment Gateway. Scan to view ledger details.</p>
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://hostinger.com" alt="QR" class="w-14 h-14">
+                            <p class="text-[8px] text-slate-500 leading-tight">Verified by Hostinger Payment Gateway. Scan to view ledger details.</p>
                         </div>
 
-                        <button onclick="window.print()" class="no-print w-full hostinger-purple text-white py-4 rounded-xl font-bold uppercase text-[10px] shadow-lg active:scale-95 transition-all">
-                            Download / Print PDF
-                        </button>
+                        <button onclick="window.print()" class="no-print w-full hostinger-purple text-white py-4 rounded-xl font-bold uppercase text-[10px] shadow-lg">Download / Print PDF</button>
                     </div>
                     <div class="h-1.5 w-full bg-emerald-500"></div>
                 </div>
-                <button @click="page = 'dashboard'" class="no-print mt-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest">← Back to Dashboard</button>
             </div>
         </template>
-
     </main>
+
+    <div class="mobile-nav no-print lg:hidden">
+        <div @click="page = 'dashboard'" :class="page === 'dashboard' ? 'text-purple' : 'text-slate-400'" class="flex flex-col items-center"><span class="text-[10px] font-bold">Server</span></div>
+        <div @click="page = 'receipt'" :class="page === 'receipt' ? 'text-purple' : 'text-slate-400'" class="flex flex-col items-center"><span class="text-[10px] font-bold">Billing</span></div>
+    </div>
 
 </body>
 </html>
