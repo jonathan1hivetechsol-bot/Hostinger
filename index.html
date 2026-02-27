@@ -1,5 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" x-data="{ page: 'receipt', activeDate: 'Feb 22, 2026' }">
+<html lang="en" x-data="{ 
+    page: 'login', 
+    activeDate: 'Feb 22, 2026', 
+    isLoggedIn: false, 
+    showUserMenu: false 
+}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,154 +32,150 @@
         @media print { .no-print { display: none !important; } .main-content { margin: 0 !important; padding: 0 !important; } .card { border: none !important; box-shadow: none !important; } }
     </style>
 </head>
-<body>
+<body @click.outside="showUserMenu = false">
 
-    <header class="h-topbar no-print">
-        <div class="flex items-center gap-2">
-           <img src="https://raw.githubusercontent.com/jonathan1hivetechsol-bot/Hostinger/main/Hostinger-logo.png" alt="Hostinger" class="h-6 md:h-7 object-contain">
-            <span class="bg-purple-100 text-purple-700 text-[9px] font-bold px-1.5 py-0.5 rounded uppercase">hPanel</span>
-        </div>
-        <div class="flex items-center gap-3">
-            <div class="text-right hidden sm:block">
-                <p class="text-[10px] font-bold text-slate-700">Verified User</p>
-                <p class="text-[9px] text-slate-400">admin@hostinger.vps</p>
-            </div>
-            <div class="w-8 h-8 rounded-full bg-purple-600 flex items-center justify-center text-white font-bold text-xs shadow-md">VU</div>
-        </div>
-    </header>
-
-    <aside class="h-sidebar no-print">
-        <div class="mt-20 px-4 space-y-2">
-            <div @click="page = 'dashboard'" class="nav-item" :class="page === 'dashboard' ? 'active' : ''"><span>VPS Management</span></div>
-            <div @click="page = 'receipt'" class="nav-item" :class="page === 'receipt' ? 'active' : ''"><span>Billing & Invoices</span></div>
-            
-            <div @click="page = 'confirmation'" class="nav-item" :class="page === 'confirmation' ? 'active' : ''">
-                <span>Payment Confirmation</span>
-            </div>
-
-            <div class="nav-item flex flex-col items-start gap-1">
-                <span class="text-slate-600">Cloud Services</span>
-                <div class="flex flex-col border-l-2 border-purple-200 pl-3 py-1">
-                    <span class="text-[10px] font-bold text-purple-600 uppercase">VPS Hosting</span>
-                    <span class="text-[9px] text-slate-400">KVM 2 Plan • Active</span>
+    <template x-if="page === 'login'">
+        <div class="fixed inset-0 z-[100] bg-slate-50 flex items-center justify-center p-4">
+            <div class="card w-full max-w-md shadow-xl p-8">
+                <div class="flex flex-col items-center mb-8">
+                    <img src="https://raw.githubusercontent.com/jonathan1hivetechsol-bot/Hostinger/main/Hostinger-logo.png" alt="Hostinger" class="h-8 mb-4">
+                    <h2 class="text-xl font-bold text-slate-800">Log in to hPanel</h2>
                 </div>
-            </div>
-            <div class="nav-item flex flex-col items-start gap-0">
-                <span class="text-slate-500">Domains</span>
-                <span class="text-[10px] text-purple-400 truncate w-full">darkviolet-marten-929706.hostingersite.com</span>
-            </div>
-        </div>
-    </aside>
-
-    <main class="main-content">
-        <template x-if="page === 'dashboard'">
-            <div class="animate-fadeIn">
-                <h1 class="text-xl font-black mb-8">VPS Dashboard</h1>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div class="card border-l-4 border-l-purple-600"><p class="text-[9px] font-bold text-slate-400">Active Plan</p><p class="text-lg font-black mt-1">KVM 2 VPS</p></div>
-                    <div class="card"><p class="text-[9px] font-bold text-slate-400">IP Address</p><p class="text-lg font-mono font-black mt-1">185.212.110.45</p></div>
-                </div>
-            </div>
-        </template>
-
-        <template x-if="page === 'confirmation'">
-            <div class="animate-fadeIn max-w-2xl mx-auto">
-                <h1 class="text-xl font-black text-slate-900 mb-6">Payment Status Confirmation</h1>
                 <div class="space-y-4">
-                    <div class="card flex justify-between items-center border-l-4 border-l-emerald-500 shadow-sm">
-                        <div>
-                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Transaction #HST-882910</p>
-                            <p class="text-sm font-bold text-slate-800 mt-1">VPS Renewal - Feb 2026</p>
-                            <p class="text-[10px] text-emerald-600 font-bold mt-1 uppercase">Confirmed on: Feb 26, 2026</p>
-                        </div>
-                        <div class="text-right">
-                            <p class="text-lg font-black text-slate-900">$16.00</p>
-                            <span class="text-[9px] bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full font-bold">SUCCESS</span>
-                        </div>
-                    </div>
-
-                    <div class="card flex justify-between items-center border-l-4 border-l-emerald-500 shadow-sm opacity-90">
-                        <div>
-                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Transaction #HST-882910</p>
-                            <p class="text-sm font-bold text-slate-800 mt-1">VPS Renewal - Jan 2026</p>
-                            <p class="text-[10px] text-emerald-600 font-bold mt-1 uppercase">Confirmed on: Jan 22, 2026</p>
-                        </div>
-                        <div class="text-right">
-                            <p class="text-lg font-black text-slate-900">$16.00</p>
-                            <span class="text-[9px] bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full font-bold">SUCCESS</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mt-8 p-6 bg-purple-50 rounded-2xl border border-purple-100 flex items-start gap-4">
-                    <div class="w-10 h-10 rounded-full bg-purple-600 flex items-center justify-center text-white shrink-0">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Email</label>
+                        <input type="text" value="admin@hostinger.vps" class="w-full p-3 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm" readonly>
                     </div>
                     <div>
-                        <p class="text-sm font-bold text-purple-900">Important</p>
-                        <p class="text-xs text-purple-700 mt-1 leading-relaxed">You get confirmation email on your mail for every successful transaction. Please check your inbox (admin@hostinger.vps) for official PDF copies.</p>
+                        <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Password</label>
+                        <input type="password" value="••••••••" class="w-full p-3 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm" readonly>
                     </div>
+                    <button @click="page = 'dashboard'; isLoggedIn = true" class="w-full hostinger-purple text-white py-3 rounded-lg font-bold text-sm shadow-lg hover:opacity-90 transition-all">
+                        Log In
+                    </button>
+                    <p class="text-center text-xs text-slate-400 mt-4">Forgot password? <span class="text-purple-600 font-bold cursor-pointer">Reset here</span></p>
                 </div>
             </div>
-        </template>
+        </div>
+    </template>
 
-        <template x-if="page === 'receipt'">
-            <div class="flex flex-col lg:flex-row gap-8 items-start justify-center animate-fadeIn">
-                <div class="w-full lg:w-64 no-print">
-                    <h2 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Invoice History</h2>
-                    <div class="space-y-2">
-                        <div @click="activeDate = 'Feb 22, 2026'" :class="activeDate === 'Feb 22, 2026' ? 'border-purple-600 bg-white' : 'border-transparent'" class="card !p-4 cursor-pointer border-2 transition-all">
-                            <p class="text-xs font-bold text-slate-800">#HST-882910</p>
-                            <p class="text-[10px] text-slate-400">Feb 22, 2026</p>
+    <template x-if="page !== 'login'">
+        <div>
+            <header class="h-topbar no-print">
+                <div class="flex items-center gap-2">
+                   <img src="https://raw.githubusercontent.com/jonathan1hivetechsol-bot/Hostinger/main/Hostinger-logo.png" alt="Hostinger" class="h-6 md:h-7 object-contain">
+                    <span class="bg-purple-100 text-purple-700 text-[9px] font-bold px-1.5 py-0.5 rounded uppercase">hPanel</span>
+                </div>
+                
+                <div class="relative flex items-center gap-3 cursor-pointer" @click.stop="showUserMenu = !showUserMenu">
+                    <div class="text-right hidden sm:block">
+                        <p class="text-[10px] font-bold text-slate-700">Verified User</p>
+                        <p class="text-[9px] text-slate-400">admin@hostinger.vps</p>
+                    </div>
+                    <div class="w-8 h-8 rounded-full bg-purple-600 flex items-center justify-center text-white font-bold text-xs shadow-md">VU</div>
+                    
+                    <div x-show="showUserMenu" x-transition class="absolute right-0 top-full mt-2 w-48 bg-white rounded-xl shadow-2xl border border-slate-100 py-2 z-50">
+                        <div class="px-4 py-2 border-b border-slate-50 mb-1 sm:hidden">
+                            <p class="text-[10px] font-bold text-slate-700">Verified User</p>
+                            <p class="text-[9px] text-slate-400">admin@hostinger.vps</p>
                         </div>
-                        <div @click="activeDate = 'Jan 22, 2026'" :class="activeDate === 'Jan 22, 2026' ? 'border-purple-600 bg-white' : 'border-transparent'" class="card !p-4 cursor-pointer border-2 transition-all">
-                            <p class="text-xs font-bold text-slate-800">#HST-882910</p>
-                            <p class="text-[10px] text-slate-400">Jan 22, 2026</p>
+                        <div class="px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-50">Account Settings</div>
+                        <div @click="page = 'login'; isLoggedIn = false" class="px-4 py-2 text-xs font-bold text-red-500 hover:bg-red-50 transition-colors">
+                            Logout
                         </div>
                     </div>
                 </div>
+            </header>
 
-                <div class="card !p-0 w-full max-w-md shadow-2xl overflow-hidden border-none">
-                    <div class="hostinger-purple p-6 md:p-10 text-white">
-                        <div class="flex justify-between items-center">
-                            <img src="https://raw.githubusercontent.com/jonathan1hivetechsol-bot/Hostinger/main/Hostinger-logo.png" alt="Hostinger" class="h-6 object-contain">
-                            <span class="bg-emerald-500 text-[9px] font-bold px-2 py-1 rounded-full uppercase">Paid</span>
-                        </div>
-                        <div class="mt-8">
-                            <h1 class="text-2xl font-black">#HST-882910</h1>
-                            <p class="text-[10px] text-purple-200 mt-1 uppercase tracking-widest" x-text="activeDate"></p>
+            <aside class="h-sidebar no-print">
+                <div class="mt-20 px-4 space-y-2">
+                    <div @click="page = 'dashboard'" class="nav-item" :class="page === 'dashboard' ? 'active' : ''"><span>VPS Management</span></div>
+                    <div @click="page = 'receipt'" class="nav-item" :class="page === 'receipt' ? 'active' : ''"><span>Billing & Invoices</span></div>
+                    <div @click="page = 'confirmation'" class="nav-item" :class="page === 'confirmation' ? 'active' : ''"><span>Payment Confirmation</span></div>
+
+                    <div class="nav-item flex flex-col items-start gap-1">
+                        <span class="text-slate-600">Cloud Services</span>
+                        <div class="flex flex-col border-l-2 border-purple-200 pl-3 py-1">
+                            <span class="text-[10px] font-bold text-purple-600 uppercase">VPS Hosting</span>
+                            <span class="text-[9px] text-slate-400">KVM 2 Plan • Active</span>
                         </div>
                     </div>
+                    <div class="nav-item flex flex-col items-start gap-0">
+                        <span class="text-slate-500">Domains</span>
+                        <span class="text-[10px] text-purple-400 truncate w-full">darkviolet-marten-929706.hostingersite.com</span>
+                    </div>
+                </div>
+            </aside>
 
-                    <div class="p-6 md:p-8">
-                        <div class="flex justify-between items-center mb-6 p-4 bg-slate-50 rounded-xl">
-                            <div>
-                                <p class="text-[9px] font-bold text-slate-400 uppercase">Visa Card</p>
-                                <p class="text-sm font-black text-slate-700">•••• 2517</p>
+            <main class="main-content">
+                <template x-if="page === 'dashboard'">
+                    <div class="animate-fadeIn">
+                        <h1 class="text-xl font-black mb-8">VPS Dashboard</h1>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="card border-l-4 border-l-purple-600"><p class="text-[9px] font-bold text-slate-400">Active Plan</p><p class="text-lg font-black mt-1">KVM 2 VPS</p></div>
+                            <div class="card"><p class="text-[9px] font-bold text-slate-400">IP Address</p><p class="text-lg font-mono font-black mt-1">185.212.110.45</p></div>
+                        </div>
+                    </div>
+                </template>
+
+                <template x-if="page === 'confirmation'">
+                    <div class="animate-fadeIn max-w-2xl mx-auto">
+                        <h1 class="text-xl font-black text-slate-900 mb-6 text-center">Payment Status</h1>
+                        <div class="space-y-4">
+                            <div class="card flex justify-between items-center border-l-4 border-l-emerald-500 shadow-sm">
+                                <div><p class="text-[10px] font-bold text-slate-400 uppercase">Transaction #HST-882910</p><p class="text-sm font-bold mt-1 text-slate-800">VPS Renewal - Feb 2026</p><p class="text-[10px] text-emerald-600 font-bold mt-1">Confirmed on: Feb 26, 2026</p></div>
+                                <div class="text-right"><p class="text-lg font-black text-slate-900">$16.00</p><span class="text-[9px] bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full font-bold">SUCCESS</span></div>
                             </div>
-                            <p class="text-xl font-black text-slate-900">$16.00</p>
+                            <div class="card flex justify-between items-center border-l-4 border-l-emerald-500 shadow-sm opacity-90">
+                                <div><p class="text-[10px] font-bold text-slate-400 uppercase">Transaction #HST-882910</p><p class="text-sm font-bold mt-1 text-slate-800">VPS Renewal - Jan 2026</p><p class="text-[10px] text-emerald-600 font-bold mt-1">Confirmed on: Jan 22, 2026</p></div>
+                                <div class="text-right"><p class="text-lg font-black text-slate-900">$16.00</p><span class="text-[9px] bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full font-bold">SUCCESS</span></div>
+                            </div>
                         </div>
-                        <div class="space-y-3 mb-8 text-xs border-b pb-6">
-                            <div class="flex justify-between"><span class="text-slate-400">Plan</span><span class="font-bold">KVM 2 VPS (1 Month)</span></div>
-                            <div class="flex justify-between"><span class="text-slate-400">Status</span><span class="font-bold text-emerald-600">Successful</span></div>
+                        <div class="mt-8 p-6 bg-purple-50 rounded-2xl border border-purple-100 flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-full bg-purple-600 flex items-center justify-center text-white shrink-0">✉️</div>
+                            <div><p class="text-sm font-bold text-purple-900">Important</p><p class="text-xs text-purple-700 mt-1">You get confirmation email on your mail for every successful transaction. Please check your inbox (admin@hostinger.vps).</p></div>
                         </div>
-                        <div class="flex items-center gap-4 bg-slate-50 p-4 rounded-xl mb-6">
-                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://hostinger.com" alt="QR" class="w-14 h-14">
-                            <p class="text-[8px] text-slate-500 leading-tight">Verified by Hostinger Payment Gateway. Scan to view ledger details.</p>
-                        </div>
-                        <button onclick="window.print()" class="no-print w-full hostinger-purple text-white py-4 rounded-xl font-bold uppercase text-[10px] shadow-lg">Download / Print PDF</button>
                     </div>
-                    <div class="h-1.5 w-full bg-emerald-500"></div>
-                </div>
-            </div>
-        </template>
-    </main>
+                </template>
 
-    <div class="mobile-nav no-print lg:hidden">
-        <div @click="page = 'dashboard'" :class="page === 'dashboard' ? 'text-purple' : 'text-slate-400'" class="flex flex-col items-center"><span class="text-[10px] font-bold">Server</span></div>
-        <div @click="page = 'receipt'" :class="page === 'receipt' ? 'text-purple' : 'text-slate-400'" class="flex flex-col items-center"><span class="text-[10px] font-bold">Billing</span></div>
-        <div @click="page = 'confirmation'" :class="page === 'confirmation' ? 'text-purple' : 'text-slate-400'" class="flex flex-col items-center"><span class="text-[10px] font-bold">Pay Conf.</span></div>
-    </div>
+                <template x-if="page === 'receipt'">
+                    <div class="flex flex-col lg:flex-row gap-8 items-start justify-center animate-fadeIn">
+                        <div class="w-full lg:w-64 no-print">
+                            <h2 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Invoice History</h2>
+                            <div class="space-y-2">
+                                <div @click="activeDate = 'Feb 22, 2026'" :class="activeDate === 'Feb 22, 2026' ? 'border-purple-600 bg-white' : 'border-transparent'" class="card !p-4 cursor-pointer border-2 transition-all">
+                                    <p class="text-xs font-bold">#HST-882910</p>
+                                    <p class="text-[10px] text-slate-400">Feb 22, 2026</p>
+                                </div>
+                                <div @click="activeDate = 'Jan 22, 2026'" :class="activeDate === 'Jan 22, 2026' ? 'border-purple-600 bg-white' : 'border-transparent'" class="card !p-4 cursor-pointer border-2 transition-all">
+                                    <p class="text-xs font-bold">#HST-882910</p>
+                                    <p class="text-[10px] text-slate-400">Jan 22, 2026</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card !p-0 w-full max-w-md shadow-2xl overflow-hidden border-none">
+                            <div class="hostinger-purple p-6 md:p-10 text-white">
+                                <div class="flex justify-between items-center"><img src="https://raw.githubusercontent.com/jonathan1hivetechsol-bot/Hostinger/main/Hostinger-logo.png" alt="Hostinger" class="h-6 object-contain"><span class="bg-emerald-500 text-[9px] font-bold px-2 py-1 rounded-full uppercase">Paid</span></div>
+                                <div class="mt-8"><h1 class="text-2xl font-black">#HST-882910</h1><p class="text-[10px] text-purple-200 mt-1 uppercase" x-text="activeDate"></p></div>
+                            </div>
+                            <div class="p-6 md:p-8">
+                                <div class="flex justify-between items-center mb-6 p-4 bg-slate-50 rounded-xl"><div><p class="text-[9px] font-bold text-slate-400 uppercase">Visa Card</p><p class="text-sm font-black text-slate-700">•••• 2517</p></div><p class="text-xl font-black text-slate-900">$16.00</p></div>
+                                <div class="space-y-3 mb-8 text-xs border-b pb-6"><div class="flex justify-between"><span class="text-slate-400">Plan</span><span class="font-bold">KVM 2 VPS (1 Month)</span></div><div class="flex justify-between"><span class="text-slate-400">Status</span><span class="font-bold text-emerald-600">Successful</span></div></div>
+                                <button onclick="window.print()" class="no-print w-full hostinger-purple text-white py-4 rounded-xl font-bold uppercase text-[10px] shadow-lg">Download / Print PDF</button>
+                            </div>
+                            <div class="h-1.5 w-full bg-emerald-500"></div>
+                        </div>
+                    </div>
+                </template>
+            </main>
+
+            <div class="mobile-nav no-print lg:hidden">
+                <div @click="page = 'dashboard'" :class="page === 'dashboard' ? 'text-purple' : 'text-slate-400'" class="flex flex-col items-center"><span class="text-[10px] font-bold">Server</span></div>
+                <div @click="page = 'receipt'" :class="page === 'receipt' ? 'text-purple' : 'text-slate-400'" class="flex flex-col items-center"><span class="text-[10px] font-bold">Billing</span></div>
+                <div @click="page = 'confirmation'" :class="page === 'confirmation' ? 'text-purple' : 'text-slate-400'" class="flex flex-col items-center"><span class="text-[10px] font-bold">Status</span></div>
+            </div>
+        </div>
+    </template>
 
 </body>
 </html>
